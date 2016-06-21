@@ -26,6 +26,7 @@ RUN make install
 RUN echo "extension=memcached.so" > "/usr/local/etc/php/conf.d/memcached.ini"
 WORKDIR /home/
 RUN rm -Rf /tmp/php-memcached
+ADD sudoers /etc/sudoers
 ADD site.conf /etc/apache2/sites-enabled/000-default.conf
 VOLUME ["/var/log/apache2/", "/var/www/html/"]
 EXPOSE 80
