@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
-RUN apt-get update -y && apt-get install -y software-properties-common apt-utils
+RUN apt-get update -y
+RUN apt-get install -y software-properties-common apt-utils pkg-config
 RUN add-apt-repository -y ppa:ondrej/php
 RUN apt-get update -y
 
@@ -7,7 +8,8 @@ RUN apt-get update -y
 RUN apt-get install -y --allow-unauthenticated \
 	libcurl4-openssl-dev libmcrypt-dev libzip-dev libxml2-dev libjpeg-dev libxpm-dev \
 	libxslt-dev libpq-dev sqlite3 libsqlite3-dev libbz2-dev libpng-dev libfreetype6-dev \
-	libc-client2007e-dev libicu-dev git ssh subversion sudo reprepro git libmemcached-dev libmemcached11
+	libc-client2007e-dev libicu-dev git ssh subversion sudo reprepro git libmemcached-dev \
+	libmemcached11
 
 #PHP 7
 RUN apt-get install -y --allow-unauthenticated php7.0 php7.0-dev \
@@ -21,7 +23,6 @@ RUN git clone https://github.com/php-memcached-dev/php-memcached
 WORKDIR /tmp/php-memcached
 RUN git checkout -b php7 origin/php7
 RUN phpize
-RUN apt-get install -y pkg-config
 RUN ./configure
 RUN make
 RUN make install
@@ -31,8 +32,10 @@ WORKDIR /home/
 RUN rm -Rf /tmp/php-memcached
 
 #Apache2
-RUN apt-get install -y apache2
+RUN apt-get install -y apache2 libapache2-modsecurity
 RUN a2enmod rewrite
+RUN a2enmod security
+RUN mv /etc/modsecurity/modsecurity.conf-recommended mv /etc/modsecurity/modsecurity.conf
 RUN . /etc/apache2/envvars
 
 #Misc
