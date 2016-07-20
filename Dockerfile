@@ -35,7 +35,7 @@ RUN rm -Rf /tmp/php-memcached
 RUN apt-get install -y apache2 libapache2-modsecurity
 RUN a2enmod rewrite
 RUN a2enmod security
-RUN mv /etc/modsecurity/modsecurity.conf-recommended mv /etc/modsecurity/modsecurity.conf
+RUN mv /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
 RUN . /etc/apache2/envvars
 
 #Misc
